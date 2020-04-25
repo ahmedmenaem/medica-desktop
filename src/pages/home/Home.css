@@ -1,0 +1,8 @@
+.ant-layout-header {
+  background-color: transparent;
+}
+
+.ant-drawer-body {
+  padding: 0;
+  overflow: hidden;
+}
