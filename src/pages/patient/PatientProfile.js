@@ -4,7 +4,7 @@ import HeaderComponent from "../../components/header/Header";
 import {
   ArrowLeftOutlined,
   UserOutlined,
-  PlusOutlined,
+  PlusOutlined
 } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 import { searchByPatientNationalId, addDescription } from "../../api/patients";
@@ -29,10 +29,10 @@ const PatientProfile = ({ ...props }) => {
   const handleSaveDiagnosis = async () => {
     try {
       const { description } = await form.validateFields();
-      const d = await addDescription(description);
+      const d = await addDescription(props.patientId, description);
       setPatient({
         ...patient,
-        descriptions: [...patient.descriptions, d],
+        descriptions: [...patient.descriptions, d]
       });
       setNewDescriptionModal(false);
     } catch (ex) {}
@@ -51,7 +51,7 @@ const PatientProfile = ({ ...props }) => {
           margin: "0 auto",
           position: "relative",
           height: "calc(100vh - 120px)",
-          marginTop: "20px",
+          marginTop: "20px"
         }}
       >
         <div
@@ -59,7 +59,7 @@ const PatientProfile = ({ ...props }) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            width: "100%",
+            width: "100%"
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -74,11 +74,11 @@ const PatientProfile = ({ ...props }) => {
 
           <List
             dataSource={patient ? patient.descriptions : []}
-            renderItem={(item) => (
+            renderItem={item => (
               <List.Item key={item}>
                 <List.Item.Meta
                   title={"01/10/2020 10:00 am"}
-                  description={item.description}
+                  description={item}
                 />
                 <div>Dr/{item.doctor}</div>
               </List.Item>
@@ -114,8 +114,8 @@ const PatientProfile = ({ ...props }) => {
             rules={[
               {
                 required: true,
-                message: "Please enter patient's diagnosis!",
-              },
+                message: "Please enter patient's diagnosis!"
+              }
             ]}
           >
             <TextArea
