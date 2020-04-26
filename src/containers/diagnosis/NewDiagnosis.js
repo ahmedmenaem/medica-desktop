@@ -1,9 +1,7 @@
 import React from "react";
-import { Drawer, Form, Button, Col, Row, Input, Select } from "antd";
+import { Drawer, Form, Button, Col, Row, Input } from "antd";
 import "./NewDiagnosis.css";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-
-const { Option } = Select;
 
 const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
   const [form] = Form.useForm();
@@ -19,7 +17,7 @@ const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
         footer={
           <div
             style={{
-              textAlign: "right",
+              textAlign: "right"
             }}
           >
             <Button onClick={onClose} style={{ marginRight: 8 }}>
@@ -35,16 +33,16 @@ const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
           <Row gutter={16}>
             <Col span={24}>
               <Form.Item
-                name="diagnosis"
-                label="Diagnosis"
+                name="diagnose"
+                label="Diagnose"
                 rules={[
                   {
                     required: true,
-                    message: "Please enter patient's Diagnosis",
-                  },
+                    message: "Please enter patient's Diagnose"
+                  }
                 ]}
               >
-                <Input placeholder="Please enter patient's Diagnosis" />
+                <Input placeholder="Please enter patient's Diagnose" />
               </Form.Item>
             </Col>
           </Row>
@@ -56,8 +54,8 @@ const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
                 rules={[
                   {
                     required: true,
-                    message: "please enter url description",
-                  },
+                    message: "please enter url description"
+                  }
                 ]}
               >
                 <Input.TextArea
@@ -87,8 +85,8 @@ const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
                                 required: true,
                                 whitespace: true,
                                 message:
-                                  "Please input symptoms or delete this field.",
-                              },
+                                  "Please input symptoms or delete this field."
+                              }
                             ]}
                             noStyle
                           >
@@ -141,8 +139,8 @@ const NewDiagnosis = ({ visible, onClose, onSubmit, ...props }) => {
                                 required: true,
                                 whitespace: true,
                                 message:
-                                  "Please input Treatment or delete this field.",
-                              },
+                                  "Please input Treatment or delete this field."
+                              }
                             ]}
                             noStyle
                           >

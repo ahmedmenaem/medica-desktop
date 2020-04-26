@@ -4,7 +4,7 @@ import HeaderComponent from "../../components/header/Header";
 import {
   ArrowLeftOutlined,
   UserOutlined,
-  PlusOutlined,
+  PlusOutlined
 } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 import { searchByPatientNationalId, addDescription } from "../../api/patients";
@@ -30,25 +30,25 @@ const PatientProfile = ({ ...props }) => {
     setPatient(patient);
   };
 
-  const handleOnSubmit = async (form) => {
+  const handleOnSubmit = async form => {
     try {
       const {
-        diagnosis,
+        diagnose,
         description,
         symptoms = [],
-        treatments = [],
+        treatments = []
       } = await form.validateFields();
       form.resetFields();
       const d = await addDescription(
         props.patientId,
-        diagnosis,
+        diagnose,
         description,
         symptoms,
         treatments
       );
       setPatient({
         ...patient,
-        diagnosis: [...patient.diagnosis, d],
+        diagnosis: [...patient.diagnosis, d]
       });
       setNewDiagnosisModal(false);
     } catch (ex) {
@@ -56,7 +56,7 @@ const PatientProfile = ({ ...props }) => {
     }
   };
 
-  const handleListItemClicked = (index) => {
+  const handleListItemClicked = index => {
     const diagnosis = patient.diagnosis[index];
     setSelectedDiagnosis(diagnosis);
     setDiagnosisDetailsModal(true);
@@ -75,7 +75,7 @@ const PatientProfile = ({ ...props }) => {
           margin: "0 auto",
           position: "relative",
           height: "calc(100vh - 120px)",
-          marginTop: "20px",
+          marginTop: "20px"
         }}
       >
         <div
@@ -83,7 +83,7 @@ const PatientProfile = ({ ...props }) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            width: "100%",
+            width: "100%"
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -101,7 +101,7 @@ const PatientProfile = ({ ...props }) => {
             renderItem={(item, index) => (
               <List.Item
                 key={index}
-                onClick={(e) => handleListItemClicked(index)}
+                onClick={e => handleListItemClicked(index)}
               >
                 <List.Item.Meta
                   title={"01/10/2020 10:00 am"}

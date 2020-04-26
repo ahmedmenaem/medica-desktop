@@ -5,7 +5,7 @@ const pStyle = {
   fontSize: 16,
   lineHeight: "24px",
   display: "block",
-  marginBottom: 16,
+  marginBottom: 16
 };
 
 const DescriptionItem = ({ title, content }) => (
@@ -14,7 +14,7 @@ const DescriptionItem = ({ title, content }) => (
     style={{
       fontSize: 14,
       lineHeight: "22px",
-      marginBottom: 7,
+      marginBottom: 7
     }}
   >
     {content}
@@ -33,11 +33,11 @@ const DiagnosisDetails = ({ visible, onClose, diagnosis }) => {
       title="Report"
     >
       <p className="site-description-item-profile-p" style={pStyle}>
-        Diagnosis
+        Diagnose
       </p>
       <Row>
         <Col span={12}>
-          <DescriptionItem content={diagnosis ? diagnosis.diagnosis : ""} />
+          <DescriptionItem content={diagnosis ? diagnosis.diagnose : ""} />
         </Col>
       </Row>
       <Divider />
