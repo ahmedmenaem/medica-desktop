@@ -1,0 +1,9 @@
+.ant-drawer-content-wrapper {
+  height: 100% !important;
+}
+
+.ant-drawer-content-wrapper .ant-drawer-body {
+  margin-bottom: 0;
+  margin: 20px;
+  overflow-y: auto;
+}

@@ -43,7 +43,7 @@ const HomePage = () => {
               width: "100%",
             }}
           >
-            <h1>medica.</h1>
+            <h1 style={{ color: "#1D8EFA" }}>medica.</h1>
             <PatientSearch handleSubmit={onSearchSubmit} />
           </div>
         </div>

@@ -4,17 +4,21 @@ import HeaderComponent from "../../components/header/Header";
 import {
   ArrowLeftOutlined,
   UserOutlined,
-  PlusOutlined
+  PlusOutlined,
 } from "@ant-design/icons";
 import { navigate } from "@reach/router";
 import { searchByPatientNationalId, addDescription } from "../../api/patients";
+import NewDiagnosis from "../../containers/diagnosis/NewDiagnosis";
+import DiagnosisDetails from "../../containers/diagnosis/DiagnosisDetails";
 
 const { Content } = Layout;
 const { TextArea } = Input;
 
 const PatientProfile = ({ ...props }) => {
-  const [patient, setPatient] = useState(null);
-  const [newDescriptionModal, setNewDescriptionModal] = useState(false);
+  const [patient, setPatient] = useState({});
+  const [newDiagnosisModal, setNewDiagnosisModal] = useState(false);
+  const [diagnosisDetailsModal, setDiagnosisDetailsModal] = useState(false);
+  const [selectedDiagnosis, setSelectedDiagnosis] = useState(null);
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -26,16 +30,36 @@ const PatientProfile = ({ ...props }) => {
     setPatient(patient);
   };
 
-  const handleSaveDiagnosis = async () => {
+  const handleOnSubmit = async (form) => {
     try {
-      const { description } = await form.validateFields();
-      const d = await addDescription(props.patientId, description);
+      const {
+        diagnosis,
+        description,
+        symptoms = [],
+        treatments = [],
+      } = await form.validateFields();
+      form.resetFields();
+      const d = await addDescription(
+        props.patientId,
+        diagnosis,
+        description,
+        symptoms,
+        treatments
+      );
       setPatient({
         ...patient,
-        descriptions: [...patient.descriptions, d]
+        diagnosis: [...patient.diagnosis, d],
       });
-      setNewDescriptionModal(false);
-    } catch (ex) {}
+      setNewDiagnosisModal(false);
+    } catch (ex) {
+      console.log(ex);
+    }
+  };
+
+  const handleListItemClicked = (index) => {
+    const diagnosis = patient.diagnosis[index];
+    setSelectedDiagnosis(diagnosis);
+    setDiagnosisDetailsModal(true);
   };
 
   return (
@@ -51,7 +75,7 @@ const PatientProfile = ({ ...props }) => {
           margin: "0 auto",
           position: "relative",
           height: "calc(100vh - 120px)",
-          marginTop: "20px"
+          marginTop: "20px",
         }}
       >
         <div
@@ -59,7 +83,7 @@ const PatientProfile = ({ ...props }) => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            width: "100%"
+            width: "100%",
           }}
         >
           <div style={{ textAlign: "center" }}>
@@ -73,12 +97,15 @@ const PatientProfile = ({ ...props }) => {
           </div>
 
           <List
-            dataSource={patient ? patient.descriptions : []}
-            renderItem={item => (
-              <List.Item key={item}>
+            dataSource={patient ? patient.diagnosis : []}
+            renderItem={(item, index) => (
+              <List.Item
+                key={index}
+                onClick={(e) => handleListItemClicked(index)}
+              >
                 <List.Item.Meta
                   title={"01/10/2020 10:00 am"}
-                  description={item}
+                  description={item.description}
                 />
                 <div>Dr/{item.doctor}</div>
               </List.Item>
@@ -86,7 +113,7 @@ const PatientProfile = ({ ...props }) => {
           />
         </div>
         <Button
-          onClick={() => setNewDescriptionModal(true)}
+          onClick={() => setNewDiagnosisModal(true)}
           type="primary"
           shape="circle"
           icon={<PlusOutlined />}
@@ -95,37 +122,17 @@ const PatientProfile = ({ ...props }) => {
         />
       </Content>
 
-      <Modal
-        title="Add New Diagnosis"
-        visible={newDescriptionModal}
-        onOk={handleSaveDiagnosis}
-        onCancel={() => setNewDescriptionModal(false)}
-        okText="Save"
-      >
-        <Form
-          form={form}
-          name="horizontal_login"
-          layout="inline"
-          onFinish={handleSaveDiagnosis}
-        >
-          <Form.Item
-            style={{ width: "100%" }}
-            name="description"
-            rules={[
-              {
-                required: true,
-                message: "Please enter patient's diagnosis!"
-              }
-            ]}
-          >
-            <TextArea
-              rows={4}
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Enter patient diagnosis"
-            />
-          </Form.Item>
-        </Form>
-      </Modal>
+      <NewDiagnosis
+        visible={newDiagnosisModal}
+        onClose={() => setNewDiagnosisModal(false)}
+        onSubmit={handleOnSubmit}
+      />
+
+      <DiagnosisDetails
+        visible={diagnosisDetailsModal}
+        onClose={() => setDiagnosisDetailsModal(false)}
+        diagnosis={selectedDiagnosis}
+      />
     </>
   );
 };
